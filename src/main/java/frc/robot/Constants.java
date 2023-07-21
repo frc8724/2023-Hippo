@@ -22,10 +22,6 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class LeftFrontModule {
-    
-  }
-
   public static class DriveConstants {
     public static final int kFrontLeftDriveMotorPort = 0;
     public static final int kRearLeftDriveMotorPort = 2;
