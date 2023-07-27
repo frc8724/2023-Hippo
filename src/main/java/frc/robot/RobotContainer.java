@@ -31,10 +31,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveBaseSubsystem robotDrive = new DriveBaseSubsystem();
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-
-  private final DriveBaseSubsystem m_drive = new DriveBaseSubsystem();
+  private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final IntakeRollers m_rollers = new IntakeRollers();
   private final IntakeJaw m_jaw = new IntakeJaw();
@@ -42,7 +40,7 @@ public class RobotContainer {
   private final Wrist m_wrist = new Wrist();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -52,14 +50,14 @@ public class RobotContainer {
     configureBindings();
 
     // Configure default commands
-    robotDrive.setDefaultCommand(
+    m_robotDrive.setDefaultCommand(
       new RunCommand(
-        () -> robotDrive.drive(
-          driverController.getLeftY() * DriveConstants.kMaxSpeedMetersPerSecond, 
-          driverController.getLeftX() * DriveConstants.kMaxSpeedMetersPerSecond, 
-          driverController.getRightX() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond, 
+        () -> m_robotDrive.drive(
+          m_driverController.getLeftY() * DriveConstants.kMaxSpeedMetersPerSecond, 
+          m_driverController.getLeftX() * DriveConstants.kMaxSpeedMetersPerSecond, 
+          m_driverController.getRightX() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond, 
           false), 
-          robotDrive)
+          m_robotDrive)
     );
   }
 
@@ -79,13 +77,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(exampleSubsystem));
+    new Trigger(m_exampleSubsystem::exampleCondition)
+        .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**
@@ -95,6 +93,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(exampleSubsystem);
+    return Autos.exampleAuto(m_exampleSubsystem);
   }
 }
