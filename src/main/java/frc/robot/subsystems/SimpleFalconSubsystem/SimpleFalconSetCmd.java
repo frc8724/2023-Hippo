@@ -14,7 +14,6 @@ public class SimpleFalconSetCmd extends CommandBase {
 
   /** Creates a new SimpleFalconSetCmd. */
   public SimpleFalconSetCmd(SimpleFalconSubsystem subsystem, DoubleSupplier ds) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     m_ds = ds;  
     m_subsystem = subsystem;
