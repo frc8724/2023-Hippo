@@ -15,14 +15,31 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   private String name;
 
   /** Creates a new SimpleFalconSubsystem. */
-  public SimpleFalconSubsystem(String name, int id) {
+  public SimpleFalconSubsystem(String name, int id, boolean invert) {
     motor = new TalonFX(id);
+    motor.setInverted(invert);
     this.name = name;
   }
 
   public void set(double percent)
   {
     motor.set(TalonFXControlMode.PercentOutput, percent);
+  }
+
+  public double getRotationAngle() {
+    return motor.getActiveTrajectoryPosition();
+  }
+
+  public double getRotationalVelocity() {
+    return motor.getActiveTrajectoryVelocity();
+  }
+
+  public double getDistance() {
+    return motor.getIntegralAccumulator();
+  }
+
+  public void reset() {
+    
   }
 
   @Override

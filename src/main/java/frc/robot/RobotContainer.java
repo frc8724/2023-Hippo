@@ -41,7 +41,9 @@ public class RobotContainer {
 	// private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
 	// private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-	private final SimpleFalconSubsystem m_simpleSubsystem = new SimpleFalconSubsystem("test", Constants.DriveConstants.kFrontLeftDriveMotorPort);
+	//private final SimpleFalconSubsystem m_simpleSubsystem = new SimpleFalconSubsystem("test", Constants.DriveConstants.kFrontLeftDriveMotorPort);
+
+  private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
 
 	private final IntakeRollers m_rollers = new IntakeRollers();
 	private final IntakeJaw m_jaw = new IntakeJaw();
@@ -74,16 +76,16 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		// m_robotDrive.setDefaultCommand(
-		// 		new RunCommand(
-		// 				() -> m_robotDrive.drive(
-		// 						m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
-		// 						m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
-		// 						m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-		// 						false),
-		// 				m_robotDrive));
+		m_robotDrive.setDefaultCommand(
+		 		new RunCommand(
+		 				() -> m_robotDrive.drive(
+		 						m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
+		 						m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
+		 						m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+		 						false),
+		 				m_robotDrive));
 
-		this.m_simpleSubsystem.setDefaultCommand(new SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
+		//this.m_simpleSubsystem.setDefaultCommand(new SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
 
 	}
 

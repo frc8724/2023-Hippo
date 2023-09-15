@@ -17,37 +17,37 @@ public class DriveBaseSubsystem extends SubsystemBase{
 
     private final SwerveModule m_frontLeftSwerveModule = 
         new SwerveModule(
+            "frontLeftDriveMotor",
             DriveConstants.kFrontLeftDriveMotorPort,
+            "frontLeftTurningMotor",
             DriveConstants.kFrontLeftTurningMotorPort,
-            DriveConstants.kFrontLeftDriveEncoderPorts,
-            DriveConstants.kFrontLeftTurningEncoderPorts,
             DriveConstants.kFrontLeftDriveEncoderReversed,
             DriveConstants.kFrontLeftTurningEncoderReversed);
 
     private final SwerveModule m_rearLeftSwerveModule =
         new SwerveModule(
+            "rearLeftDriveMotor",
             DriveConstants.kRearLeftDriveMotorPort,
+            "rearLeftTurningMotor",
             DriveConstants.kRearLeftTurningMotorPort,
-            DriveConstants.kRearLeftDriveEncoderPorts,
-            DriveConstants.kRearLeftTurningEncoderPorts,
             DriveConstants.kRearLeftDriveEncoderReversed,
             DriveConstants.kRearLeftTurningEncoderReversed);
   
     private final SwerveModule m_frontRightSwerveModule =
         new SwerveModule(
+            "frontRightDriveMotor",
             DriveConstants.kFrontRightDriveMotorPort,
+            "frontRightTurningMotor",
             DriveConstants.kFrontRightTurningMotorPort,
-            DriveConstants.kFrontRightDriveEncoderPorts,
-            DriveConstants.kFrontRightTurningEncoderPorts,
             DriveConstants.kFrontRightDriveEncoderReversed,
             DriveConstants.kFrontRightTurningEncoderReversed);
   
     private final SwerveModule m_rearRightSwerveModule =
         new SwerveModule(
+            "rearRightDriveMotor",
             DriveConstants.kRearRightDriveMotorPort,
+            "rearRightTurningMotor",
             DriveConstants.kRearRightTurningMotorPort,
-            DriveConstants.kRearRightDriveEncoderPorts,
-            DriveConstants.kRearRightTurningEncoderPorts,
             DriveConstants.kRearRightDriveEncoderReversed,
             DriveConstants.kRearRightTurningEncoderReversed);
 
