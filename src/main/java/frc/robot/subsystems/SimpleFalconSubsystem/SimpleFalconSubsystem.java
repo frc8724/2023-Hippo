@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.SimpleFalconSubsystem;
 
+import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -46,7 +47,7 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   }
 
   public void reset() {
-    
+    motor.setSelectedSensorPosition(0.0);
   }
 
   @Override
