@@ -14,11 +14,16 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   private TalonFX motor;
   private String name;
 
+  private final double Drive1rotationTicks = 13257.0;
+  final double WheelDiameterMeters = 0.102;
+
+
   /** Creates a new SimpleFalconSubsystem. */
   public SimpleFalconSubsystem(String name, int id, boolean invert) {
     motor = new TalonFX(id);
     motor.setInverted(invert);
     this.name = name;
+    motor.setSelectedSensorPosition(0);
   }
 
   public void set(double percent)
@@ -34,8 +39,9 @@ public class SimpleFalconSubsystem extends SubsystemBase {
     return motor.getActiveTrajectoryVelocity();
   }
 
+  // distance in meters
   public double getDistance() {
-    return motor.getIntegralAccumulator();
+    return motor.getSelectedSensorPosition() / Drive1rotationTicks * WheelDiameterMeters * Math.PI;
   }
 
   public void reset() {
