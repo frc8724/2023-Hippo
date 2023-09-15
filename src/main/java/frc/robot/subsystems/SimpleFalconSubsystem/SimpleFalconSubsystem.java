@@ -17,6 +17,7 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   private final double Drive1rotationTicks = 13257.0;
   final double WheelDiameterMeters = 0.102;
 
+  final double Turning1RotationTicks = 21674.0;
 
   /** Creates a new SimpleFalconSubsystem. */
   public SimpleFalconSubsystem(String name, int id, boolean invert) {
@@ -32,11 +33,11 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   }
 
   public double getRotationAngle() {
-    return motor.getActiveTrajectoryPosition();
+    return motor.getSelectedSensorPosition() / Turning1RotationTicks * 180.0;
   }
 
   public double getRotationalVelocity() {
-    return motor.getActiveTrajectoryVelocity();
+    return motor.getSelectedSensorVelocity() / Turning1RotationTicks * 180.0;
   }
 
   // distance in meters
