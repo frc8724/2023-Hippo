@@ -103,14 +103,14 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		// m_robotDrive.setDefaultCommand(
-		// new RunCommand(
-		// () -> m_robotDrive.drive(
-		// m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
-		// m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
-		// m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-		// false),
-		// m_robotDrive));
+		m_robotDrive.setDefaultCommand(
+				new RunCommand(
+						() -> m_robotDrive.drive(
+								m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
+								m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
+								m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+								false),
+						m_robotDrive));
 
 		// this.m_simpleSubsystem.setDefaultCommand(new
 		// SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
@@ -118,21 +118,21 @@ public class RobotContainer {
 		m_robotDrive.resetEncoders();
 
 		// set the state to 0.1 @ 0 degrees
-		m_buttonTrigger1.onTrue(new InstantCommand(() -> {
-			m_robotDrive.drive(0.2, 0.0, 0.0, true);
-		}));
+		// m_buttonTrigger1.onTrue(new InstantCommand(() -> {
+		// m_robotDrive.drive(0.2, 0.0, 0.0, true);
+		// }));
 
-		m_buttonTrigger1.onFalse(new InstantCommand(() -> {
-			m_robotDrive.drive(0.0, 0.0, 0.0, true);
-		}));
+		// m_buttonTrigger1.onFalse(new InstantCommand(() -> {
+		// m_robotDrive.drive(0.0, 0.0, 0.0, true);
+		// }));
 
-		m_buttonTrigger11.onTrue(new InstantCommand(() -> {
-			m_robotDrive.drive(0.0, 0.2, 0.0, true);
-		}));
+		// m_buttonTrigger11.onTrue(new InstantCommand(() -> {
+		// m_robotDrive.drive(0.0, 0.2, 0.0, true);
+		// }));
 
-		m_buttonTrigger11.onFalse(new InstantCommand(() -> {
-			m_robotDrive.drive(0.0, 0.0, 0.0, true);
-		}));
+		// m_buttonTrigger11.onFalse(new InstantCommand(() -> {
+		// m_robotDrive.drive(0.0, 0.0, 0.0, true);
+		// }));
 
 		// m_buttonTrigger11.onTrue(new InstantCommand(() -> {
 		// SwerveModuleState state = new SwerveModuleState();

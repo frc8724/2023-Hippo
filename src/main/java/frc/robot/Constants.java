@@ -53,9 +53,9 @@ public final class Constants {
     public static final int[] kRearRightDriveEncoderPorts = new int[] { 14, 15 };
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
-    public static final boolean kRearLeftDriveEncoderReversed = true;
+    public static final boolean kRearLeftDriveEncoderReversed = false;
     public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kRearRightDriveEncoderReversed = true;
+    public static final boolean kRearRightDriveEncoderReversed = false;
 
     // If you call DriveSubsystem.drive() with a different period make sure to
     // update this.
@@ -83,7 +83,7 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 0.8;
     public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 1.5;
   }
 
   public static final class ModuleConstants {
