@@ -17,6 +17,7 @@ public class SimpleFalconSubsystem extends SubsystemBase {
 
   private final double Drive1rotationTicks = 13257.0;
   final double WheelDiameterMeters = 0.102;
+  // final double TalonFXEncoderTicks = 2048;
 
   final double Turning1RotationTicks = 21674.0;
 
@@ -28,17 +29,24 @@ public class SimpleFalconSubsystem extends SubsystemBase {
     motor.setSelectedSensorPosition(0);
   }
 
-  public void set(double percent)
-  {
+  double m_set;
+
+  public void set(double percent) {
     motor.set(TalonFXControlMode.PercentOutput, percent);
+    m_set = percent;
   }
 
-  public double getRotationAngle() {
-    return motor.getSelectedSensorPosition() / Turning1RotationTicks * 180.0;
+  public double getRotationRadians() {
+    return motor.getSelectedSensorPosition() / Turning1RotationTicks * Math.PI;
   }
 
+  /**
+   * get meters per second of the drive wheel
+   */
   public double getRotationalVelocity() {
-    return motor.getSelectedSensorVelocity() / Turning1RotationTicks * 180.0;
+    var ticksPerSecond = motor.getSelectedSensorVelocity() / 0.100;
+    var metersPerSecond = ticksPerSecond / Drive1rotationTicks * Math.PI * WheelDiameterMeters;
+    return metersPerSecond;
   }
 
   // distance in meters
@@ -47,13 +55,17 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   }
 
   public void reset() {
+    set(0.0);
     motor.setSelectedSensorPosition(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(this.name + " velocity", motor.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber(this.name + " velocity", motor.getSelectedSensorVelocity());
     SmartDashboard.putNumber(this.name + " position", motor.getSelectedSensorPosition());
+    SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
+    SmartDashboard.putNumber(this.name + " m_set", m_set);
+
   }
 }

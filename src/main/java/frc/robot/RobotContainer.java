@@ -11,6 +11,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
+import frc.robot.subsystems.DriveBase.SwerveModule;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.IntakeJaw.IntakeJaw;
 import frc.robot.subsystems.IntakeRollers.IntakeRollers;
@@ -20,8 +21,11 @@ import frc.robot.subsystems.Wrist.Wrist;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -41,9 +45,19 @@ public class RobotContainer {
 	// private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
 	// private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-	//private final SimpleFalconSubsystem m_simpleSubsystem = new SimpleFalconSubsystem("test", Constants.DriveConstants.kFrontLeftDriveMotorPort);
+	// private final SimpleFalconSubsystem m_drive1 = new
+	// SimpleFalconSubsystem("drive1",
+	// Constants.DriveConstants.kFrontLeftDriveMotorPort, false);
+	// private final SimpleFalconSubsystem m_turn1 = new
+	// SimpleFalconSubsystem("turn1",
+	// Constants.DriveConstants.kFrontLeftTurningMotorPort, false);
 
-  private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+	// private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+	final SwerveModule swerveModule = new SwerveModule(
+			"drive1", Constants.DriveConstants.kFrontLeftDriveMotorPort,
+			"turn1", Constants.DriveConstants.kFrontLeftTurningMotorPort,
+			false,
+			false);
 
 	private final IntakeRollers m_rollers = new IntakeRollers();
 	private final IntakeJaw m_jaw = new IntakeJaw();
@@ -52,7 +66,7 @@ public class RobotContainer {
 
 	private final Joystick m_joystick = new Joystick(0);
 
-	private final Trigger m_buttonTrigger0 = new JoystickButton(m_joystick, 0);
+	// private final Trigger m_buttonTrigger0 = new JoystickButton(m_joystick, 0);
 	private final Trigger m_buttonTrigger1 = new JoystickButton(m_joystick, 1);
 	private final Trigger m_buttonTrigger2 = new JoystickButton(m_joystick, 2);
 	private final Trigger m_buttonTrigger3 = new JoystickButton(m_joystick, 3);
@@ -76,17 +90,47 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		m_robotDrive.setDefaultCommand(
-		 		new RunCommand(
-		 				() -> m_robotDrive.drive(
-		 						m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
-		 						m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
-		 						m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-		 						false),
-		 				m_robotDrive));
+		// m_robotDrive.setDefaultCommand(
+		// new RunCommand(
+		// () -> m_robotDrive.drive(
+		// m_joystick.getY() * DriveConstants.kMaxSpeedMetersPerSecond,
+		// m_joystick.getX() * DriveConstants.kMaxSpeedMetersPerSecond,
+		// m_joystick.getZ() * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+		// false),
+		// m_robotDrive));
 
-		//this.m_simpleSubsystem.setDefaultCommand(new SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
+		// this.m_simpleSubsystem.setDefaultCommand(new
+		// SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
 
+		swerveModule.resetEncoders();
+
+		// set the state to 0.1 @ 0 degrees
+		m_buttonTrigger1.onTrue(new InstantCommand(() -> {
+			SwerveModuleState state = new SwerveModuleState();
+			state.angle = Rotation2d.fromDegrees(0.0);
+			state.speedMetersPerSecond = 0.1;
+			swerveModule.setDesiredState(state);
+		}));
+		m_buttonTrigger1.onFalse(new InstantCommand(() -> {
+			SwerveModuleState state = new SwerveModuleState();
+			state.angle = Rotation2d.fromDegrees(0.0);
+			state.speedMetersPerSecond = 0.0;
+			swerveModule.setDesiredState(state);
+			swerveModule.resetEncoders();
+		}));
+		m_buttonTrigger11.onTrue(new InstantCommand(() -> {
+			SwerveModuleState state = new SwerveModuleState();
+			state.angle = Rotation2d.fromDegrees(45.0);
+			state.speedMetersPerSecond = 0.1;
+			swerveModule.setDesiredState(state);
+		}));
+		m_buttonTrigger11.onFalse(new InstantCommand(() -> {
+			SwerveModuleState state = new SwerveModuleState();
+			state.angle = Rotation2d.fromDegrees(0.0);
+			state.speedMetersPerSecond = 0.0;
+			swerveModule.setDesiredState(state);
+			swerveModule.resetEncoders();
+		}));
 	}
 
 	/**
