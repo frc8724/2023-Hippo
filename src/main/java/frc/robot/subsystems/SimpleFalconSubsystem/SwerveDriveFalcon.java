@@ -7,6 +7,7 @@ package frc.robot.subsystems.SimpleFalconSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -27,12 +28,15 @@ public class SwerveDriveFalcon extends SubsystemBase {
     motor.config_kP(0, 0.05);
     motor.config_kI(0, 0.0);
     motor.config_kD(0, 0.0);
+    motor.config_kF(0, 0.0);
 
     motor.configNominalOutputForward(0.0);
     motor.configNominalOutputReverse(0.0);
     motor.configPeakOutputForward(+12.0);
     motor.configPeakOutputReverse(-12.0);
     motor.configNeutralDeadband(0.0);
+
+    motor.setNeutralMode(NeutralMode.Coast);
   }
 
   double m_set;

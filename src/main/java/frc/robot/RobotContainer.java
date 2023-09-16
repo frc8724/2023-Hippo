@@ -42,8 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	// private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
-	// private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+	private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
 
 	// private final SimpleFalconSubsystem m_drive1 = new
 	// SimpleFalconSubsystem("drive1",
@@ -52,12 +51,26 @@ public class RobotContainer {
 	// SimpleFalconSubsystem("turn1",
 	// Constants.DriveConstants.kFrontLeftTurningMotorPort, false);
 
-	// private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
-	final SwerveModule swerveModule = new SwerveModule(
-			"drive1", Constants.DriveConstants.kFrontLeftDriveMotorPort,
-			"turn1", Constants.DriveConstants.kFrontLeftTurningMotorPort,
-			false,
-			false);
+	// final SwerveModule swerveModule1 = new SwerveModule(
+	// "drive1", Constants.DriveConstants.kFrontLeftDriveMotorPort,
+	// "turn1", Constants.DriveConstants.kFrontLeftTurningMotorPort,
+	// false,
+	// false);
+	// final SwerveModule swerveModule2 = new SwerveModule(
+	// "drive1", Constants.DriveConstants.kFrontRightDriveMotorPort,
+	// "turn1", Constants.DriveConstants.kFrontRightTurningMotorPort,
+	// false,
+	// false);
+	// final SwerveModule swerveModule3 = new SwerveModule(
+	// "drive1", Constants.DriveConstants.kRearLeftDriveMotorPort,
+	// "turn1", Constants.DriveConstants.kRearLeftTurningMotorPort,
+	// true,
+	// false);
+	// final SwerveModule swerveModule4 = new SwerveModule(
+	// "drive1", Constants.DriveConstants.kRearRightDriveMotorPort,
+	// "turn1", Constants.DriveConstants.kRearRightTurningMotorPort,
+	// true,
+	// false);
 
 	private final IntakeRollers m_rollers = new IntakeRollers();
 	private final IntakeJaw m_jaw = new IntakeJaw();
@@ -102,35 +115,49 @@ public class RobotContainer {
 		// this.m_simpleSubsystem.setDefaultCommand(new
 		// SimpleFalconSetCmd(m_simpleSubsystem, m_joystickAxis0));
 
-		swerveModule.resetEncoders();
+		m_robotDrive.resetEncoders();
 
 		// set the state to 0.1 @ 0 degrees
 		m_buttonTrigger1.onTrue(new InstantCommand(() -> {
-			SwerveModuleState state = new SwerveModuleState();
-			state.angle = Rotation2d.fromDegrees(0.0);
-			state.speedMetersPerSecond = 0.2;
-			swerveModule.setDesiredState(state);
+			m_robotDrive.drive(0.2, 0.0, 0.0, true);
 		}));
+
 		m_buttonTrigger1.onFalse(new InstantCommand(() -> {
-			SwerveModuleState state = new SwerveModuleState();
-			state.angle = Rotation2d.fromDegrees(0.0);
-			state.speedMetersPerSecond = 0.0;
-			swerveModule.setDesiredState(state);
-			swerveModule.resetEncoders();
+			m_robotDrive.drive(0.0, 0.0, 0.0, true);
 		}));
+
 		m_buttonTrigger11.onTrue(new InstantCommand(() -> {
-			SwerveModuleState state = new SwerveModuleState();
-			state.angle = Rotation2d.fromDegrees(45.0);
-			state.speedMetersPerSecond = 0.5;
-			swerveModule.setDesiredState(state);
+			m_robotDrive.drive(0.0, 0.2, 0.0, true);
 		}));
+
 		m_buttonTrigger11.onFalse(new InstantCommand(() -> {
-			SwerveModuleState state = new SwerveModuleState();
-			state.angle = Rotation2d.fromDegrees(0.0);
-			state.speedMetersPerSecond = 0.0;
-			swerveModule.setDesiredState(state);
-			swerveModule.resetEncoders();
+			m_robotDrive.drive(0.0, 0.0, 0.0, true);
 		}));
+
+		// m_buttonTrigger11.onTrue(new InstantCommand(() -> {
+		// SwerveModuleState state = new SwerveModuleState();
+		// state.angle = Rotation2d.fromDegrees(45.0);
+		// state.speedMetersPerSecond = 0.2;
+		// swerveModule1.setDesiredState(state);
+		// swerveModule2.setDesiredState(state);
+		// swerveModule3.setDesiredState(state);
+		// swerveModule4.setDesiredState(state);
+
+		// }));
+		// m_buttonTrigger11.onFalse(new InstantCommand(() -> {
+		// SwerveModuleState state = new SwerveModuleState();
+		// state.angle = Rotation2d.fromDegrees(0.0);
+		// state.speedMetersPerSecond = 0.0;
+		// swerveModule1.setDesiredState(state);
+		// swerveModule2.setDesiredState(state);
+		// swerveModule3.setDesiredState(state);
+		// swerveModule4.setDesiredState(state);
+
+		// swerveModule1.resetEncoders();
+		// swerveModule2.resetEncoders();
+		// swerveModule3.resetEncoders();
+		// swerveModule4.resetEncoders();
+		// }));
 	}
 
 	/**
