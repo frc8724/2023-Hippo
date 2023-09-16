@@ -108,7 +108,7 @@ public class RobotContainer {
 		m_buttonTrigger1.onTrue(new InstantCommand(() -> {
 			SwerveModuleState state = new SwerveModuleState();
 			state.angle = Rotation2d.fromDegrees(0.0);
-			state.speedMetersPerSecond = 0.1;
+			state.speedMetersPerSecond = 0.2;
 			swerveModule.setDesiredState(state);
 		}));
 		m_buttonTrigger1.onFalse(new InstantCommand(() -> {
@@ -121,7 +121,7 @@ public class RobotContainer {
 		m_buttonTrigger11.onTrue(new InstantCommand(() -> {
 			SwerveModuleState state = new SwerveModuleState();
 			state.angle = Rotation2d.fromDegrees(45.0);
-			state.speedMetersPerSecond = 0.1;
+			state.speedMetersPerSecond = 0.5;
 			swerveModule.setDesiredState(state);
 		}));
 		m_buttonTrigger11.onFalse(new InstantCommand(() -> {

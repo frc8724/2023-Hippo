@@ -1,36 +1,14 @@
 package frc.robot.subsystems.DriveBase;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ModuleConstants;
-import frc.robot.subsystems.SimpleFalconSubsystem.SimpleFalconSubsystem;
+import frc.robot.subsystems.SimpleFalconSubsystem.SwerveDriveFalcon;
+import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurningFalcon;
 
 public class SwerveModule {
-    private final SimpleFalconSubsystem m_driveMotor;
-    private final SimpleFalconSubsystem m_turningMotor;
-
-    private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
-
-    // Using a TrapezoidProfile PIDController to allow for smooth turning
-    // private final ProfiledPIDController m_turningPIDController = new
-    // ProfiledPIDController(
-    // ModuleConstants.kPModuleTurningController,
-    // 0,
-    // 0,
-    // new TrapezoidProfile.Constraints(
-    // ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-    // ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
-    private final PIDController m_turningPIDController = new PIDController(
-            ModuleConstants.kPModuleTurningController,
-            0,
-            0);
+    private final SwerveDriveFalcon m_driveMotor;
+    private final SwerveTurningFalcon m_turningMotor;
 
     public SwerveModule(
             String driveMotorName,
@@ -39,30 +17,8 @@ public class SwerveModule {
             int turningMotorID,
             boolean driveReversed,
             boolean turningReversed) {
-        m_driveMotor = new SimpleFalconSubsystem(driveMotorName, driveMotorID, driveReversed);
-        m_turningMotor = new SimpleFalconSubsystem(turningMotorName, turningMotorID, turningReversed);
-
-        // Set the distance per pulse for the drive encoder. We can simply use the
-        // distance traveled for one rotation of the wheel divided by the encoder
-        // resolution.
-        // m_driveEncoder.setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
-
-        // Set whether drive encoder should be reversed or not
-        // m_driveEncoder.setReverseDirection(driveEncoderReversed);
-
-        // Set the distance (in this case, angle) in radians per pulse for the turning
-        // encoder.
-        // This is the the angle through an entire rotation (2 * pi) divided by the
-        // encoder resolution.
-        // m_turningEncoder.setDistancePerPulse(ModuleConstants.kTurningEncoderDistancePerPulse);
-
-        // Set whether turning encoder should be reversed or not
-        // m_turningEncoder.setReverseDirection(turningEncoderReversed);
-
-        // Limit the PID Controller's input range between -pi and pi and set the input
-        // to be continuous.
-        // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-
+        m_driveMotor = new SwerveDriveFalcon(driveMotorName, driveMotorID, driveReversed);
+        m_turningMotor = new SwerveTurningFalcon(turningMotorName, turningMotorID, turningReversed);
     }
 
     public SwerveModuleState getState() {
@@ -80,21 +36,9 @@ public class SwerveModule {
         SwerveModuleState state = SwerveModuleState.optimize(desiredState,
                 new Rotation2d(m_turningMotor.getRotationRadians()));
 
-        // Calculate the drive output from the drive PID controller.
-        final double driveOutput = m_drivePIDController.calculate(m_driveMotor.getRotationalVelocity(),
-                state.speedMetersPerSecond);
-
         // Calculate the turning motor output from the turning PID controller.
-        final double turnOutput = m_turningPIDController.calculate(m_turningMotor.getRotationRadians(),
-                state.angle.getRadians());
-
-        // Calculate the turning motor output from the turning PID controller.
-        m_driveMotor.set(driveOutput);
-        m_turningMotor.set(turnOutput);
-
-        SmartDashboard.putNumber("swerve desired rad", state.angle.getRadians());
-        // SmartDashboard.putNumber(this.name + " m_set", m_set);
-
+        m_driveMotor.set(state.speedMetersPerSecond);
+        m_turningMotor.set(state.angle.getRadians());
     }
 
     /** Zeroes all the SwerveModule encoders. */
