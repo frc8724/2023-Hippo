@@ -15,7 +15,7 @@ public class SwerveTurningFalcon extends SubsystemBase {
   private TalonFX motor;
   private String name;
 
-  final double Turning0p5RotationTicks = 21674.0;
+  final double Turning0p5RotationTicks = 21943.0;
 
   /** Creates a new SimpleFalconSubsystem. */
   public SwerveTurningFalcon(String name, int id, boolean invert) {
