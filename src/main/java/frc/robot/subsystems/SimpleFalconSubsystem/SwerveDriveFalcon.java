@@ -15,7 +15,7 @@ public class SwerveDriveFalcon extends SubsystemBase {
   private TalonFX motor;
   private String name;
 
-  private final double Drive1rotationTicks = 13257.0;
+  private final double Drive1rotationTicks = 13824.0;
   final double WheelDiameterMeters = 0.102;
   final double WheelCircumferenceMeters = WheelDiameterMeters * Math.PI;
 
