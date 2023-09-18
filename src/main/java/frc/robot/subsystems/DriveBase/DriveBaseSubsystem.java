@@ -1,22 +1,19 @@
 package frc.robot.subsystems.DriveBase;
 
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.DriveBase.SwerveModule;
 
-public class DriveBaseSubsystem extends SubsystemBase{
+public class DriveBaseSubsystem extends SubsystemBase {
 
-    private final SwerveModule m_frontLeftSwerveModule = 
-        new SwerveModule(
+    private final SwerveModule m_frontLeftSwerveModule = new SwerveModule(
             "frontLeftDriveMotor",
             DriveConstants.kFrontLeftDriveMotorPort,
             "frontLeftTurningMotor",
@@ -24,26 +21,23 @@ public class DriveBaseSubsystem extends SubsystemBase{
             DriveConstants.kFrontLeftDriveEncoderReversed,
             DriveConstants.kFrontLeftTurningEncoderReversed);
 
-    private final SwerveModule m_rearLeftSwerveModule =
-        new SwerveModule(
+    private final SwerveModule m_rearLeftSwerveModule = new SwerveModule(
             "rearLeftDriveMotor",
             DriveConstants.kRearLeftDriveMotorPort,
             "rearLeftTurningMotor",
             DriveConstants.kRearLeftTurningMotorPort,
             DriveConstants.kRearLeftDriveEncoderReversed,
             DriveConstants.kRearLeftTurningEncoderReversed);
-  
-    private final SwerveModule m_frontRightSwerveModule =
-        new SwerveModule(
+
+    private final SwerveModule m_frontRightSwerveModule = new SwerveModule(
             "frontRightDriveMotor",
             DriveConstants.kFrontRightDriveMotorPort,
             "frontRightTurningMotor",
             DriveConstants.kFrontRightTurningMotorPort,
             DriveConstants.kFrontRightDriveEncoderReversed,
             DriveConstants.kFrontRightTurningEncoderReversed);
-  
-    private final SwerveModule m_rearRightSwerveModule =
-        new SwerveModule(
+
+    private final SwerveModule m_rearRightSwerveModule = new SwerveModule(
             "rearRightDriveMotor",
             DriveConstants.kRearRightDriveMotorPort,
             "rearRightTurningMotor",
@@ -51,33 +45,32 @@ public class DriveBaseSubsystem extends SubsystemBase{
             DriveConstants.kRearRightDriveEncoderReversed,
             DriveConstants.kRearRightTurningEncoderReversed);
 
-    private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+    private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
 
-    SwerveDriveOdometry m_odometry =
-      new SwerveDriveOdometry(
-          DriveConstants.kDriveKinematics,
-          m_gyro.getRotation2d(),
-          new SwerveModulePosition[] {
-            m_frontLeftSwerveModule.getPosition(),
-            m_frontRightSwerveModule.getPosition(),
-            m_rearLeftSwerveModule.getPosition(),
-            m_rearRightSwerveModule.getPosition()
-          });
+    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+            DriveConstants.kDriveKinematics,
+            m_gyro.getRotation2d(),
+            new SwerveModulePosition[] {
+                    m_frontLeftSwerveModule.getPosition(),
+                    m_frontRightSwerveModule.getPosition(),
+                    m_rearLeftSwerveModule.getPosition(),
+                    m_rearRightSwerveModule.getPosition()
+            });
 
-    public DriveBaseSubsystem() {}
+    public DriveBaseSubsystem() {
+    }
 
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(
-            m_gyro.getRotation2d(),
-            new SwerveModulePosition[] {
-                m_frontLeftSwerveModule.getPosition(),
-                m_frontRightSwerveModule.getPosition(),
-                m_rearLeftSwerveModule.getPosition(),
-                m_rearRightSwerveModule.getPosition()
-            }
-        );
+                m_gyro.getRotation2d(),
+                new SwerveModulePosition[] {
+                        m_frontLeftSwerveModule.getPosition(),
+                        m_frontRightSwerveModule.getPosition(),
+                        m_rearLeftSwerveModule.getPosition(),
+                        m_rearRightSwerveModule.getPosition()
+                });
     }
 
     public Pose2d getPose() {
@@ -86,23 +79,24 @@ public class DriveBaseSubsystem extends SubsystemBase{
 
     public void resetOdometry(Pose2d pose) {
         m_odometry.resetPosition(
-            m_gyro.getRotation2d(),
-            new SwerveModulePosition[] {
-                m_frontLeftSwerveModule.getPosition(),
-                m_frontRightSwerveModule.getPosition(),
-                m_rearLeftSwerveModule.getPosition(),
-                m_rearRightSwerveModule.getPosition()
-            },
-            pose);
+                m_gyro.getRotation2d(),
+                new SwerveModulePosition[] {
+                        m_frontLeftSwerveModule.getPosition(),
+                        m_frontRightSwerveModule.getPosition(),
+                        m_rearLeftSwerveModule.getPosition(),
+                        m_rearRightSwerveModule.getPosition()
+                },
+                pose);
     }
 
     /**
      * Method to drive the robot using joystick info.
      *
-     * @param xSpeed Speed of the robot in the x direction (forward).
-     * @param ySpeed Speed of the robot in the y direction (sideways).
-     * @param rot Angular rate of the robot.
-     * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+     * @param xSpeed        Speed of the robot in the x direction (forward).
+     * @param ySpeed        Speed of the robot in the y direction (sideways).
+     * @param rot           Angular rate of the robot.
+     * @param fieldRelative Whether the provided x and y speeds are relative to the
+     *                      field.
      */
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         ChassisSpeeds roboChassisSpeeds = null;
@@ -111,10 +105,14 @@ public class DriveBaseSubsystem extends SubsystemBase{
         } else {
             roboChassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rot);
         }
-        // As of July 18th, the fromDiscreteSpeeds methods were added to ChassisSpeeds to fix drift in complex turns
+        // As of July 18th, the fromDiscreteSpeeds methods were added to ChassisSpeeds
+        // to fix drift in complex turns
         // We would need to update to get that method
-        //SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(ChassisSpeeds.fromDiscreteSpeeds(roboChassisSpeeds, DriveConstants.kDrivePeriod));
-        SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(roboChassisSpeeds);
+        // SwerveModuleState[] swerveModuleStates =
+        // DriveConstants.kDriveKinematics.toSwerveModuleStates(ChassisSpeeds.fromDiscreteSpeeds(roboChassisSpeeds,
+        // DriveConstants.kDrivePeriod));
+        SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics
+                .toSwerveModuleStates(roboChassisSpeeds);
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
         m_frontLeftSwerveModule.setDesiredState(swerveModuleStates[0]);
