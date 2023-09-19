@@ -9,6 +9,7 @@ import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurningFalcon;
 public class SwerveModule {
     private final SwerveDriveFalcon m_driveMotor;
     private final SwerveTurningFalcon m_turningMotor;
+    private final SwerveEncoder m_magEncoder;
 
     public SwerveModule(
             String driveMotorName,
@@ -16,9 +17,11 @@ public class SwerveModule {
             String turningMotorName,
             int turningMotorID,
             boolean driveReversed,
-            boolean turningReversed) {
+            boolean turningReversed,
+            int magInput) {
         m_driveMotor = new SwerveDriveFalcon(driveMotorName, driveMotorID, driveReversed);
         m_turningMotor = new SwerveTurningFalcon(turningMotorName, turningMotorID, turningReversed);
+        m_magEncoder = new SwerveEncoder(magInput);
     }
 
     public SwerveModuleState getState() {

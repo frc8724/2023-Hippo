@@ -57,6 +57,11 @@ public final class Constants {
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = false;
 
+    public static final int MagModule1 = 0;
+    public static final int MagModule2 = 1;
+    public static final int MagModule3 = 2;
+    public static final int MagModule4 = 3;
+
     // If you call DriveSubsystem.drive() with a different period make sure to
     // update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;

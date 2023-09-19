@@ -19,7 +19,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
             "frontLeftTurningMotor",
             DriveConstants.kFrontLeftTurningMotorPort,
             DriveConstants.kFrontLeftDriveEncoderReversed,
-            DriveConstants.kFrontLeftTurningEncoderReversed);
+            DriveConstants.kFrontLeftTurningEncoderReversed,
+            DriveConstants.MagModule1);
 
     private final SwerveModule m_rearLeftSwerveModule = new SwerveModule(
             "rearLeftDriveMotor",
@@ -27,7 +28,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
             "rearLeftTurningMotor",
             DriveConstants.kRearLeftTurningMotorPort,
             DriveConstants.kRearLeftDriveEncoderReversed,
-            DriveConstants.kRearLeftTurningEncoderReversed);
+            DriveConstants.kRearLeftTurningEncoderReversed,
+            DriveConstants.MagModule2);
 
     private final SwerveModule m_frontRightSwerveModule = new SwerveModule(
             "frontRightDriveMotor",
@@ -35,7 +37,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
             "frontRightTurningMotor",
             DriveConstants.kFrontRightTurningMotorPort,
             DriveConstants.kFrontRightDriveEncoderReversed,
-            DriveConstants.kFrontRightTurningEncoderReversed);
+            DriveConstants.kFrontRightTurningEncoderReversed,
+            DriveConstants.MagModule3);
 
     private final SwerveModule m_rearRightSwerveModule = new SwerveModule(
             "rearRightDriveMotor",
@@ -43,9 +46,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
             "rearRightTurningMotor",
             DriveConstants.kRearRightTurningMotorPort,
             DriveConstants.kRearRightDriveEncoderReversed,
-            DriveConstants.kRearRightTurningEncoderReversed);
+            DriveConstants.kRearRightTurningEncoderReversed,
+            DriveConstants.MagModule4);
 
-    private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
+    private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(22);
 
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
