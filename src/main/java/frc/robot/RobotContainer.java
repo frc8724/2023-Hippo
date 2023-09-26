@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
+import frc.robot.subsystems.DriveBase.DrivebaseResetEncoders;
 import frc.robot.subsystems.DriveBase.SwerveModule;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.IntakeJaw.IntakeJaw;
@@ -60,17 +61,17 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		// m_robotDrive.setDefaultCommand(
-		// new RunCommand(
-		// () -> m_robotDrive.drive(
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.10)
-		// * DriveConstants.kMaxSpeedMetersPerSecond,
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.10)
-		// * DriveConstants.kMaxSpeedMetersPerSecond,
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.10)
-		// * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-		// false),
-		// m_robotDrive));
+		m_robotDrive.setDefaultCommand(
+				new RunCommand(
+						() -> m_robotDrive.drive(
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.10)
+										* DriveConstants.kMaxSpeedMetersPerSecond,
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.10)
+										* DriveConstants.kMaxSpeedMetersPerSecond,
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.10)
+										* ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+								false),
+						m_robotDrive));
 
 		m_robotDrive.resetEncoders();
 
@@ -93,7 +94,8 @@ public class RobotContainer {
 	private void configureBindings() {
 		DriverStick.Button(11).onTrue(new InstantCommand(() -> m_robotDrive.zeroWheels(), m_robotDrive));
 
-		DriverStick.Button(9).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(0.0), new WaitCommand(1.0)));
+		DriverStick.Button(9).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(0.0), new WaitCommand(1.0),
+				new DrivebaseResetEncoders()));
 		DriverStick.Button(7).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(3.14), new WaitCommand(1.0)));
 
 		// DriverStick.Button(7).onTrue(new InstantCommand(() ->
