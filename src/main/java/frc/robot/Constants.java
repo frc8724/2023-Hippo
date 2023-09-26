@@ -57,10 +57,15 @@ public final class Constants {
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = false;
 
-    public static final int MagModule1 = 0;
-    public static final int MagModule2 = 1;
-    public static final int MagModule3 = 2;
-    public static final int MagModule4 = 3;
+    public static final int FrontLeftMag = 2;
+    public static final int RearLeftMag = 0;
+    public static final int FrontRightMag = 1;
+    public static final int RearRightMag = 3;
+
+    public static final int FrontLeftMagZero = 333; // 455;
+    public static final int FrontRightMagZero = 678;
+    public static final int RearRightMagZero = 792;// 333;
+    public static final int RearLeftMagZero = 455; // 333;// 792;
 
     // If you call DriveSubsystem.drive() with a different period make sure to
     // update this.

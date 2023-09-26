@@ -20,7 +20,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
             DriveConstants.kFrontLeftTurningMotorPort,
             DriveConstants.kFrontLeftDriveEncoderReversed,
             DriveConstants.kFrontLeftTurningEncoderReversed,
-            DriveConstants.MagModule1);
+            DriveConstants.FrontLeftMag);
 
     private final SwerveModule m_rearLeftSwerveModule = new SwerveModule(
             "rearLeftDriveMotor",
@@ -29,7 +29,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
             DriveConstants.kRearLeftTurningMotorPort,
             DriveConstants.kRearLeftDriveEncoderReversed,
             DriveConstants.kRearLeftTurningEncoderReversed,
-            DriveConstants.MagModule2);
+            DriveConstants.RearLeftMag);
 
     private final SwerveModule m_frontRightSwerveModule = new SwerveModule(
             "frontRightDriveMotor",
@@ -38,7 +38,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
             DriveConstants.kFrontRightTurningMotorPort,
             DriveConstants.kFrontRightDriveEncoderReversed,
             DriveConstants.kFrontRightTurningEncoderReversed,
-            DriveConstants.MagModule3);
+            DriveConstants.FrontRightMag);
 
     private final SwerveModule m_rearRightSwerveModule = new SwerveModule(
             "rearRightDriveMotor",
@@ -47,7 +47,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
             DriveConstants.kRearRightTurningMotorPort,
             DriveConstants.kRearRightDriveEncoderReversed,
             DriveConstants.kRearRightTurningEncoderReversed,
-            DriveConstants.MagModule4);
+            DriveConstants.RearRightMag);
 
     private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(22);
 
@@ -149,6 +149,17 @@ public class DriveBaseSubsystem extends SubsystemBase {
     /** Zeroes the heading of the robot. */
     public void zeroHeading() {
         m_gyro.reset();
+    }
+
+    public void zeroWheels() {
+        m_frontLeftSwerveModule.zeroTurningWheel(DriveConstants.FrontLeftMagZero);
+        m_frontRightSwerveModule.zeroTurningWheel((DriveConstants.FrontRightMagZero));
+        m_rearRightSwerveModule.zeroTurningWheel(DriveConstants.RearRightMagZero);
+        m_rearLeftSwerveModule.zeroTurningWheel(DriveConstants.RearLeftMagZero);
+    }
+
+    public void setWheelsAt(double rad) {
+        m_frontLeftSwerveModule.setTurningWheel(rad);
     }
 
     /**

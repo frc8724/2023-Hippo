@@ -15,6 +15,9 @@ public class SwerveTurningFalcon extends SubsystemBase {
   private TalonFX motor;
   private String name;
 
+  final double MOTOR_TICKS_PER_ROTATION = 2048.0;
+  final double MOTOR_RATIO_TO_WHEEL = 150.0 / 7.0;
+  final double MOTOR_TICKS_PER_WHEEL_ROTATION = MOTOR_TICKS_PER_ROTATION * MOTOR_RATIO_TO_WHEEL;
   final double Turning0p5RotationTicks = 21943.0;
 
   /** Creates a new SimpleFalconSubsystem. */
@@ -40,7 +43,7 @@ public class SwerveTurningFalcon extends SubsystemBase {
   double m_set;
 
   double convertRadiansToTicks(double rads) {
-    return rads * Turning0p5RotationTicks / Math.PI;
+    return rads * MOTOR_TICKS_PER_WHEEL_ROTATION / (2 * Math.PI);
   }
 
   /**
@@ -54,7 +57,12 @@ public class SwerveTurningFalcon extends SubsystemBase {
   }
 
   public double getRotationRadians() {
-    return motor.getSelectedSensorPosition() / Turning0p5RotationTicks * Math.PI;
+    double limitedSensorPosition = motor.getSelectedSensorPosition() % (MOTOR_TICKS_PER_WHEEL_ROTATION);
+    return limitedSensorPosition / MOTOR_TICKS_PER_WHEEL_ROTATION * 2 * Math.PI;
+  }
+
+  public double getRotationTicks() {
+    return motor.getSelectedSensorPosition();
   }
 
   public void reset() {
@@ -64,9 +72,10 @@ public class SwerveTurningFalcon extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber(this.name + " position", motor.getSelectedSensorPosition());
-    SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
-    SmartDashboard.putNumber(this.name + " m_set", m_set);
+    // // This method will be called once per scheduler run
+    // SmartDashboard.putNumber(this.name + " position",
+    // motor.getSelectedSensorPosition());
+    // SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
+    // SmartDashboard.putNumber(this.name + " m_set", m_set);
   }
 }

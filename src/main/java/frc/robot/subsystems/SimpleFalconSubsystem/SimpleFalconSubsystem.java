@@ -62,10 +62,12 @@ public class SimpleFalconSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber(this.name + " velocity", motor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber(this.name + " position", motor.getSelectedSensorPosition());
-    SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
-    SmartDashboard.putNumber(this.name + " m_set", m_set);
+    // SmartDashboard.putNumber(this.name + " velocity",
+    // motor.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber(this.name + " position",
+    // motor.getSelectedSensorPosition());
+    // SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
+    // SmartDashboard.putNumber(this.name + " m_set", m_set);
 
   }
 }

@@ -3,10 +3,12 @@ package frc.robot.subsystems.DriveBase;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SimpleFalconSubsystem.SwerveDriveFalcon;
 import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurningFalcon;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase {
     private final SwerveDriveFalcon m_driveMotor;
     private final SwerveTurningFalcon m_turningMotor;
     private final SwerveEncoder m_magEncoder;
@@ -44,10 +46,47 @@ public class SwerveModule {
         m_turningMotor.set(state.angle.getRadians());
     }
 
+    final double MAG_MAX = 4096.0;
+    final double WHEEL_MAX = 2048.0;
+
+    public void zeroTurningWheel(double MagTickTarget) {
+        double magTicks = m_magEncoder.get();
+        double magRad = magTicks / MAG_MAX * (Math.PI * 2);
+        double magTargetRad = MagTickTarget / MAG_MAX * (Math.PI * 2);
+
+        double wheelRad = m_turningMotor.getRotationRadians();
+
+        double diffRad = magTargetRad - magRad;
+
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " test magTicks", magTicks);
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " test diffRad", diffRad);
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " test magRad ", magRad);
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " test magTargetRad", magTargetRad);
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " test wheelRad ", wheelRad);
+
+        m_turningMotor.set(wheelRad + diffRad);
+    }
+
+    public void setTurningWheel(double rad) {
+        m_turningMotor.set(rad);
+    }
+
     /** Zeroes all the SwerveModule encoders. */
     public void resetEncoders() {
         m_driveMotor.reset();
         m_turningMotor.reset();
+    }
+
+    @Override
+    public void periodic() {
+
+        int magTicks = m_magEncoder.get();
+        double wheelTicks = m_turningMotor.getRotationTicks();
+
+        SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + " Swerve Mag ", magTicks);
+        // SmartDashboard.putNumber(this.m_magEncoder.m_analogInput.getChannel() + "
+        // Swerve Wheel ", wheelTicks);
+        super.periodic();
     }
 
 }

@@ -27,7 +27,7 @@ public class MayhemExtreme3dPro {
         m_joystick = new Joystick(joystickPort);
     }
 
-    Trigger Button(int button) {
+    public Trigger Button(int button) {
         return new JoystickButton(m_joystick, button);
     }
 
