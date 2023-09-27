@@ -98,6 +98,11 @@ public class RobotContainer {
 				new DrivebaseResetEncoders()));
 		DriverStick.Button(7).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(3.14), new WaitCommand(1.0)));
 
+		DriverStick.Button(5).whileTrue(new InstantCommand(() -> m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
+		DriverStick.Button(6).whileTrue(new InstantCommand(() -> m_robotDrive.drive(-.2, 0, 0, false), m_robotDrive));
+		DriverStick.Button(3).whileTrue(new InstantCommand(() -> m_robotDrive.drive(0, -.2, 0, false), m_robotDrive));
+		DriverStick.Button(4).whileTrue(new InstantCommand(() -> m_robotDrive.drive(0, .2, 0, false), m_robotDrive));
+
 		// DriverStick.Button(7).onTrue(new InstantCommand(() ->
 		// m_robotDrive.wheelsAt(3.14), m_robotDrive));
 
