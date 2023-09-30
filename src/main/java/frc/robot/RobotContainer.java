@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.commands.TestDriveFigureEight;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
 import frc.robot.subsystems.DriveBase.DrivebaseResetEncoders;
 import frc.robot.subsystems.DriveBase.SwerveModule;
@@ -97,10 +98,15 @@ public class RobotContainer {
 				new DrivebaseResetEncoders(),
 				new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
 
-		DriverStick.Button(5).whileTrue(new InstantCommand(() -> m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
-		DriverStick.Button(6).whileTrue(new InstantCommand(() -> m_robotDrive.drive(-.2, 0, 0, false), m_robotDrive));
-		DriverStick.Button(3).whileTrue(new InstantCommand(() -> m_robotDrive.drive(0, -.2, 0, false), m_robotDrive));
-		DriverStick.Button(4).whileTrue(new InstantCommand(() -> m_robotDrive.drive(0, .2, 0, false), m_robotDrive));
+		// DriverStick.Button(5).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
+		// DriverStick.Button(6).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(-.2, 0, 0, false), m_robotDrive));
+		// DriverStick.Button(3).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(0, -.2, 0, false), m_robotDrive));
+		// DriverStick.Button(4).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(0, .2, 0, false), m_robotDrive));
+		DriverStick.Button(3).onTrue(new TestDriveFigureEight());
 
 		// DriverStick.Button(7).onTrue(new InstantCommand(() ->
 		// m_robotDrive.wheelsAt(3.14), m_robotDrive));
