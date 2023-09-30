@@ -62,13 +62,13 @@ public final class Constants {
     public static final int FrontRightMag = 1;
     public static final int RearRightMag = 3;
 
-    public static final int ninety_degrees_in_ticks = 1024;
+    public static final int ninety_degrees_in_ticks = 0;
     public static final int one_eighty_degrees_in_ticks = 2048;
 
-    public static final int FrontLeftMagZero = 333 + one_eighty_degrees_in_ticks; // 455;
-    public static final int FrontRightMagZero = 678 + one_eighty_degrees_in_ticks;
-    public static final int RearRightMagZero = 792 + one_eighty_degrees_in_ticks;// 333;
-    public static final int RearLeftMagZero = 455 + one_eighty_degrees_in_ticks; // 333;// 792;
+    public static final int FrontLeftMagZero = 333 + ninety_degrees_in_ticks; // 455;
+    public static final int FrontRightMagZero = 678 + ninety_degrees_in_ticks;
+    public static final int RearRightMagZero = 792 + ninety_degrees_in_ticks;// 333;
+    public static final int RearLeftMagZero = 455 + ninety_degrees_in_ticks; // 333;// 792;
 
     // If you call DriveSubsystem.drive() with a different period make sure to
     // update this.

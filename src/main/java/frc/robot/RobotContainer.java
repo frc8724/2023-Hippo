@@ -73,7 +73,7 @@ public class RobotContainer {
 								false),
 						m_robotDrive));
 
-		m_robotDrive.resetEncoders();
+		// m_robotDrive.resetEncoders();
 
 	}
 
@@ -92,11 +92,10 @@ public class RobotContainer {
 	 * joysticks}.
 	 */
 	private void configureBindings() {
-		DriverStick.Button(11).onTrue(new InstantCommand(() -> m_robotDrive.zeroWheels(), m_robotDrive));
 
 		DriverStick.Button(9).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(0.0), new WaitCommand(1.0),
-				new DrivebaseResetEncoders()));
-		DriverStick.Button(7).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(3.14), new WaitCommand(1.0)));
+				new DrivebaseResetEncoders(),
+				new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
 
 		DriverStick.Button(5).whileTrue(new InstantCommand(() -> m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
 		DriverStick.Button(6).whileTrue(new InstantCommand(() -> m_robotDrive.drive(-.2, 0, 0, false), m_robotDrive));

@@ -46,12 +46,47 @@ public class SwerveTurningFalcon extends SubsystemBase {
     return rads * MOTOR_TICKS_PER_WHEEL_ROTATION / (2 * Math.PI);
   }
 
+  final double twoPi = Math.PI * 2.0;
+
   /**
+   * Give a source radian and a target radian, return the radian difference to
+   * add to the source to get to the target, possibly passing through pi/-pi.
+   * 
+   * @param source
+   * @param target
+   * @return
+   */
+  public double shortestRotation(double source, double target) {
+    double sourceMod = source < 0 ? twoPi + (source % twoPi) : (source % twoPi);
+    double targetMod = target < 0 ? twoPi + (target % twoPi) : (target % twoPi);
+
+    double rotation = targetMod - sourceMod;
+
+    if (rotation > Math.PI) {
+      return rotation - twoPi;
+    } else if (rotation < -Math.PI) {
+      return twoPi + rotation;
+    } else {
+      return rotation;
+    }
+  }
+
+  /**
+   * value is from -pi to +pi. In order to ensure
+   * smoother rotation we check if we are crossing pi
+   * and do the math to find the shortest path
    * 
    * @param value radians
    */
   public void set(double value) {
-    double ticks = convertRadiansToTicks(value);
+    double currentRotation = this.getRotationRadians();
+    double rotation = this.shortestRotation(currentRotation, value);
+    double finalRotation = currentRotation + rotation;
+    SmartDashboard.putNumber(this.name + " desired radians", value);
+    SmartDashboard.putNumber(this.name + " current radians", currentRotation);
+    SmartDashboard.putNumber(this.name + " rotation mod", rotation);
+    SmartDashboard.putNumber(this.name + " shortest radians", finalRotation);
+    double ticks = convertRadiansToTicks(finalRotation);
     motor.set(TalonFXControlMode.Position, ticks);
     m_set = ticks;
   }
@@ -77,5 +112,11 @@ public class SwerveTurningFalcon extends SubsystemBase {
     // motor.getSelectedSensorPosition());
     // SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
     // SmartDashboard.putNumber(this.name + " m_set", m_set);
+    SmartDashboard.putNumber("test shortestRotation 3/4*PI to -3/4*PI",
+        shortestRotation(Math.PI * 3.0 / 4.0, -Math.PI * 3.0 / 4.0)); // should be +Pi/2 = 1.57
+
+    SmartDashboard.putNumber("test shortestRotation -3/4*PI to 3/4*PI",
+        shortestRotation(-Math.PI * 3.0 / 4.0, Math.PI * 3.0 / 4.0)); // should be -Pi/2 = 1.57
+
   }
 }
