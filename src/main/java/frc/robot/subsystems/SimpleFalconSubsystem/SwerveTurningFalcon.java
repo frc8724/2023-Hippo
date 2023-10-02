@@ -17,8 +17,8 @@ public class SwerveTurningFalcon extends SubsystemBase {
 
   final double MOTOR_TICKS_PER_ROTATION = 2048.0;
   final double MOTOR_RATIO_TO_WHEEL = 150.0 / 7.0;
-  final double MOTOR_TICKS_PER_WHEEL_ROTATION = MOTOR_TICKS_PER_ROTATION * MOTOR_RATIO_TO_WHEEL;
-  final double Turning0p5RotationTicks = 21943.0;
+  final double MOTOR_TICKS_PER_WHEEL_ROTATION = MOTOR_TICKS_PER_ROTATION *
+      MOTOR_RATIO_TO_WHEEL;
 
   /** Creates a new SimpleFalconSubsystem. */
   public SwerveTurningFalcon(String name, int id, boolean invert) {
@@ -27,9 +27,9 @@ public class SwerveTurningFalcon extends SubsystemBase {
     this.name = name;
     motor.setSelectedSensorPosition(0);
 
-    motor.config_kP(0, 0.05);
+    motor.config_kP(0, 0.5);
     motor.config_kI(0, 0.0);
-    motor.config_kD(0, 0.0);
+    motor.config_kD(0, 0.5);
     motor.config_kF(0, 0.0);
 
     motor.configNominalOutputForward(0.0);
@@ -57,8 +57,25 @@ public class SwerveTurningFalcon extends SubsystemBase {
    * @return
    */
   public double shortestRotation(double source, double target) {
-    double sourceMod = source < 0 ? twoPi + (source % twoPi) : (source % twoPi);
-    double targetMod = target < 0 ? twoPi + (target % twoPi) : (target % twoPi);
+    // double sourceMod = source < 0 ? twoPi + (source % twoPi) : (source % twoPi);
+    // double targetMod = target < 0 ? twoPi + (target % twoPi) : (target % twoPi);
+
+    double sourceMod = source % twoPi;
+    double targetMod = target % twoPi;
+
+    if (sourceMod < 0.0) {
+      sourceMod += twoPi;
+    }
+    if (targetMod < 0.0) {
+      targetMod += twoPi;
+    }
+
+    if (sourceMod > twoPi) {
+      sourceMod -= twoPi;
+    }
+    if (targetMod > twoPi) {
+      targetMod -= twoPi;
+    }
 
     double rotation = targetMod - sourceMod;
 
@@ -82,10 +99,13 @@ public class SwerveTurningFalcon extends SubsystemBase {
     double currentRotation = this.getRotationRadians();
     double rotation = this.shortestRotation(currentRotation, value);
     double finalRotation = currentRotation + rotation;
-    SmartDashboard.putNumber(this.name + " desired radians", value);
-    SmartDashboard.putNumber(this.name + " current radians", currentRotation);
-    SmartDashboard.putNumber(this.name + " rotation mod", rotation);
-    SmartDashboard.putNumber(this.name + " shortest radians", finalRotation);
+    if (this.name == "frontLeftTurningMotor") {
+      SmartDashboard.putNumber(this.name + " desired radians", value);
+      SmartDashboard.putNumber(this.name + " current radians", currentRotation);
+      SmartDashboard.putNumber(this.name + " rotation mod", rotation);
+      SmartDashboard.putNumber(this.name + " shortest radians", finalRotation);
+      System.out.println("rotation: " + rotation);
+    }
     double ticks = convertRadiansToTicks(finalRotation);
     motor.set(TalonFXControlMode.Position, ticks);
     m_set = ticks;
@@ -108,8 +128,10 @@ public class SwerveTurningFalcon extends SubsystemBase {
   @Override
   public void periodic() {
     // // This method will be called once per scheduler run
-    // SmartDashboard.putNumber(this.name + " position",
-    // motor.getSelectedSensorPosition());
+    SmartDashboard.putNumber(this.name + " position", motor.getSelectedSensorPosition());
+    SmartDashboard.putNumber(this.name + " error", motor.getClosedLoopError());
+    // SmartDashboard.putNumber(this.name + " MOTOR_TICKS_PER_WHEEL_ROTATION",
+    // MOTOR_TICKS_PER_WHEEL_ROTATION);
     // SmartDashboard.putNumber(this.name + " rads", this.getRotationRadians());
     // SmartDashboard.putNumber(this.name + " m_set", m_set);
     // SmartDashboard.putNumber("test shortestRotation 3/4*PI to -3/4*PI",

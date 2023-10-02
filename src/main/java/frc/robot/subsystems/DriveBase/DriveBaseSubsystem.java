@@ -160,6 +160,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     public void setWheelsAt(double rad) {
         m_frontLeftSwerveModule.setTurningWheel(rad);
+        m_frontRightSwerveModule.setTurningWheel(rad);
+        m_rearRightSwerveModule.setTurningWheel(rad);
+        m_rearLeftSwerveModule.setTurningWheel(rad);
+
     }
 
     /**

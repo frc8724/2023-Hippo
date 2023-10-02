@@ -7,23 +7,17 @@ package frc.robot.subsystems.SimpleFalconSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SwerveTurnWheelAt extends InstantCommand {
-  double rad;
-  SwerveTurningFalcon subsystem;
+public class SwerveTurnWheelTo extends InstantCommand {
+  double m_rad;
 
-  public SwerveTurnWheelAt(double r) {
-    rad = r;
-
+  public SwerveTurnWheelTo(double rad) {
     addRequirements(RobotContainer.m_robotDrive);
+    m_rad = rad;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // RobotContainer.m_robotDrive.setWheelsAt(rad);
-    RobotContainer.m_robotDrive.zeroWheels();
+    RobotContainer.m_robotDrive.setWheelsAt(m_rad);
   }
 }

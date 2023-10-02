@@ -7,13 +7,16 @@ package frc.robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.commands.TestDriveFigureEight;
+import frc.robot.commands.TestDriveInACircle;
+import frc.robot.commands.TestTurnWheelPid;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
+import frc.robot.subsystems.DriveBase.DriveZeroWheels;
 import frc.robot.subsystems.DriveBase.DrivebaseResetEncoders;
 import frc.robot.subsystems.DriveBase.SwerveModule;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.IntakeJaw.IntakeJaw;
 import frc.robot.subsystems.IntakeRollers.IntakeRollers;
-import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurnWheelAt;
+import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurnWheelTo;
 import frc.robot.subsystems.Wrist.Wrist;
 
 import org.mayheminc.util.MayhemExtreme3dPro;
@@ -94,9 +97,12 @@ public class RobotContainer {
 	 */
 	private void configureBindings() {
 
-		DriverStick.Button(9).onTrue(new SequentialCommandGroup(new SwerveTurnWheelAt(0.0), new WaitCommand(1.0),
-				new DrivebaseResetEncoders(),
-				new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
+		DriverStick.Button(9).onTrue(
+				new SequentialCommandGroup(
+						new DriveZeroWheels(),
+						new WaitCommand(1.0),
+						new DrivebaseResetEncoders(),
+						new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
 
 		// DriverStick.Button(5).whileTrue(new InstantCommand(() ->
 		// m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
@@ -107,6 +113,11 @@ public class RobotContainer {
 		// DriverStick.Button(4).whileTrue(new InstantCommand(() ->
 		// m_robotDrive.drive(0, .2, 0, false), m_robotDrive));
 		DriverStick.Button(3).onTrue(new TestDriveFigureEight());
+
+		DriverStick.Button(5).onTrue(new TestTurnWheelPid(0.0));
+		DriverStick.Button(6).onTrue(new TestTurnWheelPid(Math.PI / 2));
+
+		DriverStick.Button(4).onTrue(new TestDriveInACircle());
 
 		// DriverStick.Button(7).onTrue(new InstantCommand(() ->
 		// m_robotDrive.wheelsAt(3.14), m_robotDrive));
