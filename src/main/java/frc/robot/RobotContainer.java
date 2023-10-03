@@ -6,16 +6,26 @@ package frc.robot;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.commands.TestDriveFigureEight;
+import frc.robot.commands.TestDriveInACircle;
+import frc.robot.commands.TestTurnWheelPid;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
+import frc.robot.subsystems.DriveBase.DriveZeroWheels;
+import frc.robot.subsystems.DriveBase.DrivebaseResetEncoders;
+import frc.robot.subsystems.DriveBase.SwerveModule;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.IntakeJaw.IntakeJaw;
 import frc.robot.subsystems.IntakeRollers.IntakeRollers;
+import frc.robot.subsystems.SimpleFalconSubsystem.SwerveTurnWheelTo;
 import frc.robot.subsystems.Wrist.Wrist;
 
 import org.mayheminc.util.MayhemExtreme3dPro;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -30,14 +40,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+	public static final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+	// private final SwerveModule swerveModule = new SwerveModule(
+	// "frontLeftDriveMotor",
+	// DriveConstants.kFrontLeftDriveMotorPort,
+	// "frontLeftTurningMotor",
+	// DriveConstants.kFrontLeftTurningMotorPort,
+	// DriveConstants.kFrontLeftDriveEncoderReversed,
+	// DriveConstants.kFrontLeftTurningEncoderReversed,
+	// DriveConstants.MagModule1);
 
 	private final IntakeRollers m_rollers = new IntakeRollers();
 	private final IntakeJaw m_jaw = new IntakeJaw();
 	private final Elevator m_neck = new Elevator();
 	private final Wrist m_wrist = new Wrist();
 
-	private final MayhemExtreme3dPro DriverStick = new MayhemExtreme3dPro(0);
+	private final MayhemExtreme3dPro DriverStick = new MayhemExtreme3dPro(5);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -47,19 +65,19 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		m_robotDrive.setDefaultCommand(
-				new RunCommand(
-						() -> m_robotDrive.drive(
-								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.05)
-										* DriveConstants.kMaxSpeedMetersPerSecond,
-								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.05)
-										* DriveConstants.kMaxSpeedMetersPerSecond,
-								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.05)
-										* ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-								false),
-						m_robotDrive));
+		// m_robotDrive.setDefaultCommand(
+		// new RunCommand(
+		// () -> m_robotDrive.drive(
+		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.10)
+		// * DriveConstants.kMaxSpeedMetersPerSecond,
+		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.10)
+		// * DriveConstants.kMaxSpeedMetersPerSecond,
+		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.10)
+		// * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+		// false),
+		// m_robotDrive));
 
-		m_robotDrive.resetEncoders();
+		// m_robotDrive.resetEncoders();
 
 	}
 
@@ -78,6 +96,37 @@ public class RobotContainer {
 	 * joysticks}.
 	 */
 	private void configureBindings() {
+
+		DriverStick.Button(9).onTrue(
+				new SequentialCommandGroup(
+						new DriveZeroWheels(),
+						new WaitCommand(1.0),
+						new DrivebaseResetEncoders(),
+						new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
+
+		// DriverStick.Button(5).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
+		// DriverStick.Button(6).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(-.2, 0, 0, false), m_robotDrive));
+		// DriverStick.Button(3).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(0, -.2, 0, false), m_robotDrive));
+		// DriverStick.Button(4).whileTrue(new InstantCommand(() ->
+		// m_robotDrive.drive(0, .2, 0, false), m_robotDrive));
+		DriverStick.Button(3).onTrue(new TestDriveFigureEight());
+
+		DriverStick.Button(5).onTrue(new TestTurnWheelPid(0.0));
+		DriverStick.Button(6).onTrue(new TestTurnWheelPid(Math.PI / 2));
+
+		DriverStick.Button(4).onTrue(new TestDriveInACircle());
+
+		// DriverStick.Button(7).onTrue(new InstantCommand(() ->
+		// m_robotDrive.wheelsAt(3.14), m_robotDrive));
+
+		// DriverStick.Button(11).onFalse(new InstantCommand(() ->
+		// swerveModule.setTurningWheel(0.0), swerveModule));
+		// DriverStick.Button(11).onTrue(new InstantCommand(() ->
+		// swerveModule.setTurningWheel(3.14), swerveModule));
+
 	}
 
 	/**
