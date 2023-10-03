@@ -44,6 +44,14 @@ public class SwerveTurningFalcon extends SubsystemBase {
 
   double convertRadiansToTicks(double rads) {
     return rads * MOTOR_TICKS_PER_WHEEL_ROTATION / (2 * Math.PI);
+
+    // double currentTicks = motor.getSelectedSensorPosition() %
+    // MOTOR_TICKS_PER_WHEEL_ROTATION;
+    // double desiredTicks = rads * MOTOR_TICKS_PER_WHEEL_ROTATION / (2 * Math.PI);
+
+    // if( currentTicks - desiredTicks > MOTOR_TICKS_PER_WHEEL_ROTATION / 2){
+
+    // }
   }
 
   final double twoPi = Math.PI * 2.0;
@@ -88,6 +96,31 @@ public class SwerveTurningFalcon extends SubsystemBase {
     }
   }
 
+  private double placeInAppropriate0To2PiScope(double scopeReference, double newAngle) {
+    double lowerBound;
+    double upperBound;
+    double startingRadianNeg2Pito2Pi = scopeReference % twoPi;
+    if (startingRadianNeg2Pito2Pi >= 0) {
+      lowerBound = scopeReference - startingRadianNeg2Pito2Pi;
+      upperBound = scopeReference + (twoPi - startingRadianNeg2Pito2Pi);
+    } else {
+      upperBound = scopeReference - startingRadianNeg2Pito2Pi;
+      lowerBound = scopeReference - (twoPi + startingRadianNeg2Pito2Pi);
+    }
+    while (newAngle < lowerBound) {
+      newAngle += twoPi;
+    }
+    while (newAngle > upperBound) {
+      newAngle -= twoPi;
+    }
+    if (newAngle - scopeReference > Math.PI) {
+      newAngle -= twoPi;
+    } else if (newAngle - scopeReference < -Math.PI) {
+      newAngle += twoPi;
+    }
+    return newAngle;
+  }
+
   /**
    * value is from -pi to +pi. In order to ensure
    * smoother rotation we check if we are crossing pi
@@ -99,16 +132,28 @@ public class SwerveTurningFalcon extends SubsystemBase {
     double currentRotation = this.getRotationRadians();
     double rotation = this.shortestRotation(currentRotation, value);
     double finalRotation = currentRotation + rotation;
+    double e = convertRadiansToTicks(finalRotation);
+    double s = motor.getSelectedSensorPosition() % MOTOR_TICKS_PER_WHEEL_ROTATION;
+
     if (this.name == "frontLeftTurningMotor") {
       SmartDashboard.putNumber(this.name + " desired radians", value);
       SmartDashboard.putNumber(this.name + " current radians", currentRotation);
       SmartDashboard.putNumber(this.name + " rotation mod", rotation);
       SmartDashboard.putNumber(this.name + " shortest radians", finalRotation);
       System.out.println("rotation: " + rotation);
+      System.out.println("final rot: " + finalRotation);
+      System.out.println("final Tick: " + e);
+      System.out.println("motor curr ticks: " + motor.getSelectedSensorPosition());
+      System.out.println("==============================");
     }
-    double ticks = convertRadiansToTicks(finalRotation);
+    double ticks;
+    if (e - s + MOTOR_TICKS_PER_WHEEL_ROTATION < s - e) {
+      ticks = motor.getSelectedSensorPosition() + e - s + MOTOR_TICKS_PER_WHEEL_ROTATION;
+    } else {
+      ticks = motor.getSelectedSensorPosition() - (s - e);
+    }
     motor.set(TalonFXControlMode.Position, ticks);
-    m_set = ticks;
+    m_set = e;
   }
 
   public double getRotationRadians() {

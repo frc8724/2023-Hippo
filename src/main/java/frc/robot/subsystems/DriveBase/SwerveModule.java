@@ -46,6 +46,43 @@ public class SwerveModule extends SubsystemBase {
         m_turningMotor.set(state.angle.getRadians());
     }
 
+    public static SwerveModuleState optimizeB(SwerveModuleState desiredState, Rotation2d currentAngle) {
+        double targetAngleDegrees = placeInAppropriate0To360Scope(currentAngle.getDegrees(),
+                desiredState.angle.getDegrees());
+        double targetSpeed = desiredState.speedMetersPerSecond;
+        double delta = targetAngleDegrees - currentAngle.getDegrees();
+        if (Math.abs(delta) > 90) {
+            targetSpeed = -targetSpeed;
+            targetAngleDegrees = delta > 90 ? (targetAngleDegrees -= 180) : (targetAngleDegrees += 180);
+        }
+        return new SwerveModuleState(targetSpeed, Rotation2d.fromDegrees(targetAngleDegrees));
+    }
+
+    private static double placeInAppropriate0To360Scope(double scopeReference, double newAngle) {
+        double lowerBound;
+        double upperBound;
+        double lowerOffset = scopeReference % 360;
+        if (lowerOffset >= 0) {
+            lowerBound = scopeReference - lowerOffset;
+            upperBound = scopeReference + (360 - lowerOffset);
+        } else {
+            upperBound = scopeReference - lowerOffset;
+            lowerBound = scopeReference - (360 + lowerOffset);
+        }
+        while (newAngle < lowerBound) {
+            newAngle += 360;
+        }
+        while (newAngle > upperBound) {
+            newAngle -= 360;
+        }
+        if (newAngle - scopeReference > 180) {
+            newAngle -= 360;
+        } else if (newAngle - scopeReference < -180) {
+            newAngle += 360;
+        }
+        return newAngle;
+    }
+
     final double MAG_MAX = 4096.0;
     final double WHEEL_MAX = 2048.0;
 

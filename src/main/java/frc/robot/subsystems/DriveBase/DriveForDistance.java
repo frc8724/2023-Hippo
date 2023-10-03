@@ -39,7 +39,7 @@ public class DriveForDistance extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_robotDrive.drive(0.0, 0.0, 0.0, false);
+    // RobotContainer.m_robotDrive.drive(0.0, 0.0, 0.0, false);
   }
 
   double getDistance(double x, double y) {
