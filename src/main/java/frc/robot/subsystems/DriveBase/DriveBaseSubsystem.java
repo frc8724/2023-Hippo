@@ -1,5 +1,6 @@
 package frc.robot.subsystems.DriveBase;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -49,7 +50,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
             DriveConstants.kRearRightTurningEncoderReversed,
             DriveConstants.RearRightMag);
 
-    private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(22);
+    private final WPI_Pigeon2 m_gyro = new WPI_Pigeon2(22);
 
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
@@ -62,11 +63,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
             });
 
     public DriveBaseSubsystem() {
+        m_gyro.configFactoryDefault();
+        m_gyro.setYaw(0);
     }
 
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
+        System.out.println("Gyro rotation: " + m_gyro.getRotation2d());
+        System.out.println("Gyro rotation 2: " + m_gyro.getYaw());
+
         m_odometry.update(
                 m_gyro.getRotation2d(),
                 new SwerveModulePosition[] {
@@ -98,12 +104,13 @@ public class DriveBaseSubsystem extends SubsystemBase {
      *
      * @param xSpeed        Speed of the robot in the x direction (forward).
      * @param ySpeed        Speed of the robot in the y direction (sideways).
-     * @param rot           Angular rate of the robot.
+     * @param rot           ngular rate of the robot.
      * @param fieldRelative Whether the provided x and y speeds are relative to the
      *                      field.
      */
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         ChassisSpeeds roboChassisSpeeds = null;
+
         if (fieldRelative) {
             roboChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d());
         } else {

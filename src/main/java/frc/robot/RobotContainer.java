@@ -65,17 +65,17 @@ public class RobotContainer {
 		configureBindings();
 
 		// Configure default commands
-		// m_robotDrive.setDefaultCommand(
-		// new RunCommand(
-		// () -> m_robotDrive.drive(
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.10)
-		// * DriveConstants.kMaxSpeedMetersPerSecond,
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.10)
-		// * DriveConstants.kMaxSpeedMetersPerSecond,
-		// DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.10)
-		// * ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-		// false),
-		// m_robotDrive));
+		m_robotDrive.setDefaultCommand(
+				new RunCommand(
+						() -> m_robotDrive.drive(
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Y, 0.10)
+										* DriveConstants.kMaxSpeedMetersPerSecond,
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.X, 0.10)
+										* DriveConstants.kMaxSpeedMetersPerSecond,
+								DriverStick.DeadbandAxis(MayhemExtreme3dPro.Axis.Z, 0.10)
+										* ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+								true),
+						m_robotDrive));
 
 		// m_robotDrive.resetEncoders();
 
@@ -102,7 +102,7 @@ public class RobotContainer {
 						new DriveZeroWheels(),
 						new WaitCommand(1.0),
 						new DrivebaseResetEncoders(),
-						new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)));
+						new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, true), m_robotDrive)));
 
 		// DriverStick.Button(5).whileTrue(new InstantCommand(() ->
 		// m_robotDrive.drive(.2, 0, 0, false), m_robotDrive));
