@@ -165,6 +165,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
         m_rearLeftSwerveModule.zeroTurningWheel(DriveConstants.RearLeftMagZero);
     }
 
+    public void zeroGyro() {
+        m_gyro.setYaw(0);
+    }
+
     public void setWheelsAt(double rad) {
         m_frontLeftSwerveModule.setTurningWheel(rad);
         m_frontRightSwerveModule.setTurningWheel(rad);

@@ -10,6 +10,7 @@ import frc.robot.commands.TestDriveFigureEight;
 import frc.robot.commands.TestDriveInACircle;
 import frc.robot.commands.TestTurnWheelPid;
 import frc.robot.subsystems.DriveBase.DriveBaseSubsystem;
+import frc.robot.subsystems.DriveBase.DriveZeroGyro;
 import frc.robot.subsystems.DriveBase.DriveZeroWheels;
 import frc.robot.subsystems.DriveBase.DrivebaseResetEncoders;
 import frc.robot.subsystems.DriveBase.SwerveModule;
@@ -100,6 +101,7 @@ public class RobotContainer {
 		DriverStick.Button(9).onTrue(
 				new SequentialCommandGroup(
 						new DriveZeroWheels(),
+						new DriveZeroGyro(),
 						new WaitCommand(1.0),
 						new DrivebaseResetEncoders(),
 						new InstantCommand(() -> m_robotDrive.drive(0, 0, 0, true), m_robotDrive)));
