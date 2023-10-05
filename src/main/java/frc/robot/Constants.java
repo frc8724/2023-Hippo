@@ -26,6 +26,15 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class WristConstants {
+    public static final int kWirstMotorPort = 12;
+  }
+
+  public static class MouthConstants {
+    public static final int kLeftMouthMotorPort = 13;
+    public static final int kRightMouthMotorPort = 14;
+  }
+
   public static class DriveConstants {
     public static final int kFrontLeftDriveMotorPort = 2;
     public static final int kRearLeftDriveMotorPort = 7;
