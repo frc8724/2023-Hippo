@@ -70,8 +70,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        System.out.println("Gyro rotation: " + m_gyro.getRotation2d());
-        System.out.println("Gyro rotation 2: " + m_gyro.getYaw());
+        // System.out.println("Gyro rotation: " + m_gyro.getRotation2d());
+        // System.out.println("Gyro rotation 2: " + m_gyro.getYaw());
 
         m_odometry.update(
                 m_gyro.getRotation2d(),
