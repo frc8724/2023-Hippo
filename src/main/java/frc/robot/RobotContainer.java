@@ -146,9 +146,8 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		// An example command will be run in autonomous
-		// return Autos.exampleAuto(m_exampleSubsystem);
-		return new AutoScore1Taxi();
+		// return new AutoScore1Taxi();
+		return autoChooser.getSelected();
 	}
 
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
