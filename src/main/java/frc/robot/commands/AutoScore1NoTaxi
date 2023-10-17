@@ -1,0 +1,24 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+public class AutoScore1NoTaxi extends SequentialCommandGroup {
+  /** Creates a new AutoDrop1. */
+  public AutoScore1NoTaxi() {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(
+        new DriveForDistance(0.0, 0.0, 0.0, 0.0),
+        new WaitCommand(1.0),
+
+        new DriveZeroWheels(),
+        new DriveZeroGyro(),
+        new WaitCommand(1.0),
+        new DrivebaseResetEncoders(),
+        new DriveForDistance(3.0, 0.0, 0.0, 1.0),
+        new DriveForDistance(-3.0, 0.0, 0.0, 1.0));
+    // 4.0 m = 12' 10"][\
+  }
+}

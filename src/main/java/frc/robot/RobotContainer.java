@@ -27,6 +27,7 @@ import frc.robot.subsystems.Wrist.Wrist;
 import org.mayheminc.util.MayhemExtreme3dPro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -89,6 +90,7 @@ public class RobotContainer {
 		addAuto(new AutoScore1Taxi());
 		addAuto(new AutoScore1ChargingStation());
 		addAuto(new AutoScore1TaxiChargingStation());
+		SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
 	/**

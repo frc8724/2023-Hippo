@@ -27,9 +27,9 @@ public class AutoScore1Taxi extends SequentialCommandGroup {
         new DriveZeroGyro(),
         new WaitCommand(1.0),
         new DrivebaseResetEncoders(),
-        new DriveForDistance(-3.0, 0.0, 0.0, 1.0),
         new DriveForDistance(3.0, 0.0, 0.0, 1.0),
-        new DriveForDistance(-2.0, 0.0, 0.0, 4.0));
-    // 4.0 m = 12' 10"
+        new DriveForDistance(-3.0, 0.0, 0.0, 1.0),
+        new DriveForDistance(2.0, 0.0, 0.0, 4.0));
+    // 4.0 m = 12' 10"][\
   }
 }
