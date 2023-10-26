@@ -25,10 +25,10 @@ public class AutoScore1ChargingStation extends SequentialCommandGroup {
         new DriveZeroGyro(),
         new WaitCommand(1.0),
         new DrivebaseResetEncoders(),
-        new DriveForDistance(3.0, 0.0, 0.0, 0.7),
         new DriveForDistance(-3.0, 0.0, 0.0, 0.7),
-        new DriveForDistance(2.0, 0.0, 0.0, 4.2),
-        // new WaitCommand(1.0),
-        new DriveForDistance(-1.0, 0.0, 0.0, 2.2));
+        new DriveForDistance(3.0, 0.0, 0.0, 0.7),
+        new DriveForDistance(-2.0, 0.0, 0.0, 3.2));
+    // new WaitCommand(1.0),
+    // new DriveForDistance(1.0, 0.0, 0.0, 2.2));
   }
 }
