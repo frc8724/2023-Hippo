@@ -29,8 +29,8 @@ public class AutoScore1TaxiChargingStation extends SequentialCommandGroup {
         new DrivebaseResetEncoders(),
         new DriveForDistance(-3.0, 0.0, 0.0, 1.0),
         new DriveForDistance(3.0, 0.0, 0.0, 1.0),
-        new DriveForDistance(-2.0, 0.0, 0.0, 4.0),
-        new DriveForDistance(1.0, 0.0, 0.0, 1.7)
+        new DriveForDistance(-2.0, 0.0, 0.0, 4.2),
+        new DriveForDistance(1.0, 0.0, 0.0, 2.2)
 
     );
   }
